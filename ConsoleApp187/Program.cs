@@ -1,51 +1,34 @@
 ﻿using System;
 
-
-
-public class BubbleSort
+public static class Program
 {
     public static void Main()
     {
-        Console.WriteLine("Geben Sie die Anzahl der Zahlen ein:");
+        Console.Write("Anzahl der zu sortierenden Zahlen: ");
         int count = int.Parse(Console.ReadLine());
-
-
 
         int[] array = new int[count];
 
-
-
-        Console.WriteLine("Geben Sie die Zahlen ein:");
-
-
-
         for (int i = 0; i < count; i++)
         {
+            Console.Write($"Zahl {i + 1}: ");
             array[i] = int.Parse(Console.ReadLine());
         }
 
-
-
         Console.WriteLine("Unsortiertes Array:");
-        PrintArray(array);
+        PrintBarChart(array);
 
-
-
-        bubbleSort(array);
-
-
+        BubbleSort(array);
 
         Console.WriteLine("Sortiertes Array:");
-        PrintArray(array);
+        PrintBarChart(array);
+
+        Console.ReadKey();
     }
 
-
-
-    public static void bubbleSort(int[] array)
+    public static void BubbleSort(int[] array)
     {
         int n = array.Length;
-
-
 
         for (int i = 0; i < n - 1; i++)
         {
@@ -53,23 +36,44 @@ public class BubbleSort
             {
                 if (array[j] > array[j + 1])
                 {
-                    // Tausche array[j] und array[j + 1]
+                    // Tausche die Elemente
                     int temp = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = temp;
                 }
+
+                // Aktualisiere die Visualisierung
+                PrintBarChart(array);
             }
         }
     }
 
-
-
-    public static void PrintArray(int[] array)
+    public static void PrintBarChart(int[] array)
     {
-        foreach (int element in array)
+        int maxBarLength = 50;
+        int maxNum = GetMaxValue(array);
+        double scale = maxBarLength / (double)maxNum;
+
+        Console.Clear();
+        foreach (int num in array)
         {
-            Console.Write(element + " ");
+            int barLength = (int)(num * scale);
+            string bar = new string('#', barLength);
+            Console.WriteLine($"{num,4} | {bar}");
         }
         Console.WriteLine();
+    }
+
+    public static int GetMaxValue(int[] array)
+    {
+        int max = array[0];
+        for (int i = 1; i < array.Length; i++)
+        {
+            if (array[i] > max)
+            {
+                max = array[i];
+            }
+        }
+        return max;
     }
 }
